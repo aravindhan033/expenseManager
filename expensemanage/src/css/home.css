@@ -1,0 +1,49 @@
+.chatparent{
+    width: 40vw;
+    height: 77vh;
+    display: inline-block;
+    overflow: auto;
+}
+.chat_detail{
+    width: 58vw;
+    display: inline-block;
+    height: 77vh;    
+    border: 1px solid #dedede;
+}
+.chatrow_item{
+    border-bottom: 1px solid #dedede;
+    height: 8vh;
+    width: 100%;
+    padding-top: 1.5vh;    
+    font-size: 22px;
+}
+.chat_title{
+    font-size: 20px;    
+    margin-left: 4vw;
+}
+.chat_description{
+    font-size: 14px;
+    margin-top: 0.5vh;
+    margin-left: 4vw;
+}
+.chat_right_icon{
+    vertical-align: middle;
+    margin-right: 2vw;
+    float: right;
+}
+.chatdatarow_parent{
+    height: 85%;
+}
+.chatdetailbottom{
+    height: 15%;    
+}
+.addnew_chatdet_row{
+    font-size: 3vh;
+    vertical-align: bottom;
+}
+@media only screen and (max-width: 600px) {
+   .chatparent{
+    width: 100%;
+   }
+  }
+  

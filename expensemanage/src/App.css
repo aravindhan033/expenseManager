@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+.loginparent{    position: absolute;
+  position: absolute;
+    margin-left: 33%;
+    margin-right: 33%;
+    width: 35%;
+    border: 1px solid #eeeaea;
+    height: 35%;
+    margin-top: 15%;
+    box-shadow: 8px 7px 8px #e0e0e0;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.loginelem{
+  margin-top: 5vmin;
+  margin-left: 30%;
+  width: 40%;
+  height: 2rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+button{
+  border: none;
+    border-radius: 7px;
+    width: auto;
+    height: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    cursor: pointer;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.loginelem input {
+  width: 100%;
+  height: 100%;
 }
-
-.App-link {
-  color: #61dafb;
+input {
+  border: 1px solid #c1baba;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 4px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.primary-button{
+  background: #03a9f4;
+    color: white;
+    font-size: 1rem;
 }
