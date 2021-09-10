@@ -1,3 +1,6 @@
+.mt1per{
+    margin-top: 1%;
+}
 .ml3per{
     margin-left: 3%;
 }
@@ -7,8 +10,29 @@
 .w5per{
     width: 5%;
 }
+.w10per{
+    width: 10%;
+}
+.w20per{
+    width: 20%;
+}
+.w30per{
+    width: 30%;
+}
 .w40per{
     width: 40%;
+}
+.w50per{
+    width: 50%;
+}
+.w60per{
+    width: 60%;
+}
+.w70per{
+    width: 70%;
+}
+.w90per{
+    width: 90%;
 }
 .h30per{
     height: 30%;
@@ -16,9 +40,21 @@
 .h100per{
     height: 100%;
 }
+.h50per{
+    height: 50%;
+}
 .float-right{
     float: right;
 }
 .display-inline-block{
     display: inline-block;
+}
+.flex{
+    display: flex;
+}
+.flex-flow-reverse{
+    flex-flow: row-reverse wrap;
+}
+.pt2vh{
+    padding-top: 2vh;
 }

@@ -1,3 +1,6 @@
+body{
+  font-family: Helvetica, Arial, sans-serif;
+}
 .loginparent{    position: absolute;
   position: absolute;
     margin-left: 33%;
@@ -16,7 +19,7 @@
 }
 button{
   border: none;
-    border-radius: 7px;
+  border-radius: 5vh;
     width: auto;
     height: 100%;
     padding-left: 1rem;
@@ -29,12 +32,12 @@ button{
 }
 input {
   border: 1px solid #c1baba;
-  padding-left: 5px;
+  padding-left: 10px;
   padding-right: 5px;
   border-radius: 4px;
 }
 .primary-button{
-  background: #03a9f4;
+  background: #0084ff;
     color: white;
     font-size: 1rem;
 }
