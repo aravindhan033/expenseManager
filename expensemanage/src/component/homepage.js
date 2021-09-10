@@ -1,26 +1,38 @@
 import { React, useState, useEffect } from 'react';
 import '../css/home.css';
-import { FaChevronCircleRight, FaImages ,FaLaughBeam ,FaList} from "react-icons/fa";
+import {MdDashboard,MdHome,MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
 
 function HomePage() {
 
 
+
     return (<div>
         <div className="expense-chat-header">
-            <div className="header-left">
-                <div className="header-menu"><FaList></FaList></div>
-                <div className="header-title" >Expense manager</div>
+            <div className="header-left">                
+                <div className="header-title" >Expense manager</div>                
+                <div className="header-dashboard"><MdDashboard></MdDashboard> </div>
+                <div className="header-home">< MdHome></MdHome></div>
+                <div></div>
             </div>
         </div>
-        <div className="flex mt1per">
-            <div className="chatparent">
+        <div className="flex mt1per pl2vh">
+            <div className="chatparent">            
+            <AddNewExpenseType></AddNewExpenseType>
                 <ChatRow></ChatRow>
+                
             </div>
             <ChatDetailPage></ChatDetailPage>
         </div>
 
     </div>
     )
+}
+function AddNewExpenseType(){
+    return <div className="addnewexpensetype">
+        <div><span >Add</span><MdSend className="addnewexpensetype-icon" ></MdSend></div>
+        
+        
+    </div>;
 }
 
 function ChatRow() {
@@ -48,7 +60,7 @@ function ChatRow() {
     );
 
 
-    return (<div>{listItems}</div>);
+    return (<div className="chatrow">{listItems}</div>);
 
 
 }
@@ -59,7 +71,7 @@ function ChatElement(props) {
     return <div className="chatrow_item">
 
         <span className="chat_title"> {props.chat_items.title}</span>
-        <span className="chat_right_icon"> <FaChevronCircleRight></FaChevronCircleRight></span>
+        <span className="chat_right_icon"> <MdChevronRight></MdChevronRight></span>
         <div className="chat_description"> {props.chat_items.description}</div>
 
     </div>
@@ -95,7 +107,7 @@ function ChatDetailPage() {
 }
 function ChatDetailHeader(props){
     return <div className="expense-chatdetail-header">
-        <div className="expense-chatdetail-header-img"><FaLaughBeam></FaLaughBeam></div>
+        <div className="expense-chatdetail-header-img"><MdTagFaces></MdTagFaces></div>
         <div className="expense-chatdetail-header-container">
         <div className="expense-chatdetail-header-title">{props.headername}</div>
         <div className="expense-chatdetail-header-subtitle">3435</div>
@@ -138,10 +150,13 @@ function ChatDetailBottom() {
                     <button className="primary-button">Add</button>
                 </div>
                 <div className="w70per"><input placeholder="Reason..." className="h50per w90per" /> </div>
-                <div className="w20per">
-                    <i className="chat-attach"><FaImages></FaImages></i>
+                <div className="w15per">
+                <input placeholder="Amount..." className="h50per w50per amount-field" />
+                    </div>
+                <div className="w5per pt1vh">
+                    <i className="chat-attach"><MdImage></MdImage></i>
 
-                    <input placeholder="Amount..." className="h50per w50per amount-field" />
+                    
                 </div>
 
             </div>

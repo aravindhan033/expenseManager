@@ -1,6 +1,9 @@
 .mt1per{
     margin-top: 1%;
 }
+.ml8per{
+    margin-left: 8%;
+}
 .ml3per{
     margin-left: 3%;
 }
@@ -12,6 +15,9 @@
 }
 .w10per{
     width: 10%;
+}
+.w15per{
+    width: 15%;
 }
 .w20per{
     width: 20%;
@@ -55,6 +61,12 @@
 .flex-flow-reverse{
     flex-flow: row-reverse wrap;
 }
+.pt1vh{
+    padding-top: 1vh;
+}
 .pt2vh{
     padding-top: 2vh;
+}
+.pl2vh{
+    padding-left: 2vh;
 }
