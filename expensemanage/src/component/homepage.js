@@ -1,5 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import '../css/home.css';
+import Pageheader from "./common"
+import {AddCatergroyItem,GetAllCategory} from "../js/home"
 import {MdDashboard,MdHome,MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
 
 function HomePage() {
@@ -7,26 +9,37 @@ function HomePage() {
 
 
     return (<div>
-        <div className="expense-chat-header">
-            <div className="header-left">                
-                <div className="header-title" >Expense manager</div>                
-                <div className="header-dashboard"><MdDashboard></MdDashboard> </div>
-                <div className="header-home">< MdHome></MdHome></div>
-                <div></div>
+        <Pageheader headername="Expense manager"></Pageheader>
+        <div className="flex mt1per pl2vh">        
+            <div>
+            <AddCatergroy></AddCatergroy>
+            <div className="chatparent">                                        
+                <ChatRow></ChatRow>                
             </div>
-        </div>
-        <div className="flex mt1per pl2vh">
-            <div className="chatparent">            
-            <AddNewExpenseType></AddNewExpenseType>
-                <ChatRow></ChatRow>
-                
             </div>
+            
+
             <ChatDetailPage></ChatDetailPage>
         </div>
 
     </div>
     )
 }
+function AddCatergroy(){
+    
+    function checkCreateCategory(){
+        let catergory_name=document.getElementById("category_name").value
+        if(catergory_name!=null && catergory_name.trim()!=""){
+            AddCatergroyItem({"catergory_name":catergory_name});
+        }        
+    }
+
+    return <div className="add-category">
+        <span ><input placeholder="Add category..." id="category_name"></input></span>
+        <span className="ml5per"> <button onClick={checkCreateCategory} className="primary-button h80per">Add Category</button></span>
+    </div>
+}
+
 function AddNewExpenseType(){
     return <div className="addnewexpensetype">
         <div><span >Add</span><MdSend className="addnewexpensetype-icon" ></MdSend></div>
@@ -37,16 +50,13 @@ function AddNewExpenseType(){
 
 function ChatRow() {
 
-    const [chatdata, setChatdata] = useState([{ description: "", title: "", id: "" }]);
+    const [chatdata, setChatdata] = useState([{  catergory_name: "", id: "" }]);
 
 
-    useEffect(() => {
-        fetch('http://localhost:3000/sampledata/data.json')
+    useEffect(() => {                
+        GetAllCategory()
             .then(response => {
-                response.json().then((d) => {
-                    setChatdata(d.topics);
-                })
-
+                setChatdata(response);
             })
     }, [])
 
@@ -67,13 +77,13 @@ function ChatRow() {
 
 function ChatElement(props) {
 
+    function openDetailPage(){
+        
+    }
 
     return <div className="chatrow_item">
-
-        <span className="chat_title"> {props.chat_items.title}</span>
-        <span className="chat_right_icon"> <MdChevronRight></MdChevronRight></span>
-        <div className="chat_description"> {props.chat_items.description}</div>
-
+        <span className="chat_title"> {props.chat_items.catergory_name}</span>
+        <span className="chat_right_icon"> <MdChevronRight></MdChevronRight></span>        
     </div>
 
 }

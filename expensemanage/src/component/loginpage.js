@@ -1,38 +1,51 @@
 
-import React from 'react';
+import { React, useState } from 'react';
+import { collection, doc, setDoc, getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+function LoginBox() {
 
-class LoginBox extends React.Component{
-    constructor(){
-        super();
-        this.state={username:'',password:''}
-    }
+  const db = getFirestore();
 
-    loginProcess(){
-        if(this.state.username!="" && this.state.password!=""){
-            //var datastore = catalyst.table;
-            //var table = datastore.tableId(529000000005509);
-            localStorage.setItem("userid","123")
-
+  let userdetails = { username: "", password: "" };
+  async function loginProcess() {
+    userdetails = { username: document.getElementById("username").value, password: document.getElementById("password").value };
+    if (userdetails.username != "" && userdetails.password != "") {
+      let isValid = false;
+      const querySnapshot = await getDocs(collection(db, "user"));
+      querySnapshot.forEach((doc) => {
+        if (doc.data().username == userdetails.username && doc.data().password == userdetails.password) {
+          isValid = true;
+          localStorage.setItem("userid", doc.id);
         }
-    }
+      });
 
-    render(){
-        return <div >
-        <div className="loginparent">
-             <div className="loginelem">
-               <input onChange={(event)=>{this.setState({username:event.target.value})}} type="text" placeholder="Username" id="username"></input>
-             </div>
-             <div className="loginelem">
-               <input  onChange={(event)=>{this.setState({password:event.target.value})}} type="password" placeholder="Password" id="password"></input>
-             </div>
-             <div className="loginelem">
-               <button className="primary-button" id="login" onClick={this.loginProcess.bind(this)}>
-                 Login
-               </button>
-               
-             </div>
-        </div>
-       </div>
+      if (isValid) {
+        window.location = "/home";
+      }
+
+
     }
+  }
+
+
+
+
+  return <div >
+    <div className="loginparent" id="loginparent">
+      <div className="loginelem">
+        <input type="text" placeholder="Username" id="username"></input>
+      </div>
+      <div className="loginelem">
+        <input type="password" placeholder="Password" id="password"></input>
+      </div>
+      <div className="loginelem">
+        <button className="primary-button" id="login" onClick={loginProcess}>
+          Login
+        </button>
+
+      </div>
+    </div>
+  </div>
+
 }
 export default LoginBox;

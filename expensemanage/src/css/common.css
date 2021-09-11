@@ -1,6 +1,9 @@
 .mt1per{
     margin-top: 1%;
 }
+.ml5per{
+    margin-left: 5%;
+}
 .ml8per{
     margin-left: 8%;
 }
@@ -43,6 +46,9 @@
 .h30per{
     height: 30%;
 }
+.h80per{
+    height: 80%;
+}
 .h100per{
     height: 100%;
 }
@@ -69,4 +75,34 @@
 }
 .pl2vh{
     padding-left: 2vh;
+}
+.p7per{
+    padding: 7%;;
+}
+.simple-datatable{
+    width: 100%;
+    height: auto;
+    text-align: left;   
+    border-collapse: collapse;
+    
+}
+.simple-datatable th{
+    color: #0084ff;
+    padding: 12px 8px;
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 300;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-bottom: 1px solid #ebebeb;
+}
+.simple-datatable tr{
+    border-bottom: 1px solid #ebebeb;
+}
+.simple-datatable td{
+    padding: 12px 8px;
+    font-size: 0.8125rem;    
+    font-weight: 300;
+    line-height: 1.42857143;
+    vertical-align: middle;
 }

@@ -6,9 +6,9 @@
     
 }
 .chatrow{
-    height: 78vh;
+    height: 69vh;
     overflow: auto;
-    margin-top: -6vh;
+    
 }
 .chat_detail{
     width: 57vw;
@@ -18,9 +18,9 @@
 }
 .chatrow_item{
     border-bottom: 1px solid #f8f3f3;
-    height: 8.2vh;
+    height: 5.7vh;
     width: 100%;
-    padding-top: 1.5vh;    
+    padding-top: 2vh;
     font-size: 22px;
 }
 .chat_title{
@@ -196,6 +196,19 @@
     margin-left: 10%;
     vertical-align: top;
 }
+.add-category{
+    height: 5vh;
+    width: 40vw;
+    padding-top: 2vh;
+    padding-left: 5%;
+    padding-bottom: 2vh;
+}
+.add-category input{
+    height: 71%;
+    width: 56%;
+    border-radius: 25px;
+}
+
 @media only screen and (max-width: 600px) {
    .chatparent{
     width: 100%;
