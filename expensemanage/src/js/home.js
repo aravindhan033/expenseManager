@@ -1,17 +1,17 @@
 
-import { doc,getDocs, collection ,addDoc} from "firebase/firestore"; 
+import { doc,query,orderBy,limit,startAt,where,getDocs, collection ,addDoc} from "firebase/firestore"; 
 import { getFirestore } from "firebase/firestore";
-import { useDispatch } from 'react-redux'
+
 
 const db = getFirestore();
 
 export async function AddCatergroyItem(data){
     
-    const {catergory_name}=data;
+    const {category_name}=data;
     const userId=localStorage.getItem("userid");
     
     let addData=await addDoc( collection(db, "category"),  {
-        "catergory_name": catergory_name,        
+        "category_name": category_name,        
       });
 
     return addData;
@@ -20,14 +20,24 @@ export async function AddCatergroyItem(data){
 export async function GetAllCategory(){
     let resultData=[];
     const querySnapshot = await getDocs(collection(db, "category"));
-    const dispatch = useDispatch()
+    
     querySnapshot.forEach((doc) => {
         let cat=doc.data();
         cat.id=doc.id
         resultData.push(cat);  
     });
-    
-    dispatch({ type: 'category/addAll', payload: resultData })   
 
-    return resultData;
+    return resultData; 
+}
+
+export async function GetCategoryExpense(index,category_id){
+    let resultData=[];
+    const expenseQuery=query(collection(db, "expense_list"),where("expense_category","==",category_id),orderBy("expense_added_time"),startAt(index),limit(25))
+    expenseQuery.forEach((doc) => {
+        let cat=doc.data();
+        cat.id=doc.id
+        resultData.push(cat);  
+    });
+
+    return resultData; 
 }

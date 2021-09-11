@@ -1,13 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import rootReducer from './reducer'
 
-
-const composedEnhancer = composeWithDevTools(
-  // Add whatever middleware you actually want to use here
+import { combineReducers } from 'redux'
+import categoryReducer from "./categoryReducer"
+import categoryExpenseReducer from "./categoryExpenseReducer"
+const rootReducer = combineReducers({
+  // Define a top-level state field named `todos`, handled by `todosReducer`
+  category: categoryReducer,
+  categoryExpense: categoryExpenseReducer,
   
-  // other store enhancers if any
-)
+})
 
-const store = createStore(rootReducer, composedEnhancer)
-export default store
+export default rootReducer

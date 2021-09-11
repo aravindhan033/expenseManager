@@ -1,6 +1,6 @@
 const initialState = []
 
-export default function todosReducer(state = initialState, action) {
+export default function categoryReducer(state = initialState, action) {
   switch (action.type) {
     case 'category/add': {      
       return [
@@ -17,15 +17,19 @@ export default function todosReducer(state = initialState, action) {
           ...action.payload,
         ]
       }
-    case 'category/get': {
+    case 'category/getSelected': {
       return state.map((category) => {
         if (category.id !== action.payload.id) {
-          return todo
+          return category
         }        
       })
     }
-    case 'category/getAll': {      
-      return state;
+    case 'category/selected': {      
+        return state.map((category) => {
+            if (category.id !== action.payload.id) {
+              return category
+            }        
+          })
     }   
     default:
       return state

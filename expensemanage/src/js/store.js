@@ -1,12 +1,5 @@
-import { combineReducers } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import rootReducer from './reducer'
 
-import todosReducer from './features/todos/todosSlice'
-import filtersReducer from './features/filters/filtersSlice'
-
-const rootReducer = combineReducers({
-  // Define a top-level state field named `todos`, handled by `todosReducer`
-  category: categoryReducer,
-  
-})
-
-export default rootReducer
+const store = createStore(rootReducer)
+export default store
