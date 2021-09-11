@@ -2,12 +2,10 @@ import { React, useState, useEffect } from 'react';
 import '../css/home.css';
 import Pageheader from "./common"
 import {AddCatergroyItem,GetAllCategory} from "../js/home"
+import { useSelector,useDispatch } from 'react-redux'
 import {MdDashboard,MdHome,MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
 
 function HomePage() {
-
-
-
     return (<div>
         <Pageheader headername="Expense manager"></Pageheader>
         <div className="flex mt1per pl2vh">        
@@ -26,11 +24,15 @@ function HomePage() {
     )
 }
 function AddCatergroy(){
-    
+    const dispatch = useDispatch();
+
     function checkCreateCategory(){
-        let catergory_name=document.getElementById("category_name").value
-        if(catergory_name!=null && catergory_name.trim()!=""){
-            AddCatergroyItem({"catergory_name":catergory_name});
+        let category_name=document.getElementById("category_name").value
+        if(category_name!=null && category_name.trim()!=""){
+            AddCatergroyItem({"category_name":category_name}).then((result)=>{
+                
+                dispatch({ type: 'category/add', payload: {id:result.id,"category_name":category_name} })   
+            });
         }        
     }
 
@@ -44,28 +46,23 @@ function AddNewExpenseType(){
     return <div className="addnewexpensetype">
         <div><span >Add</span><MdSend className="addnewexpensetype-icon" ></MdSend></div>
         
-        
     </div>;
 }
 
 function ChatRow() {
 
-    const [chatdata, setChatdata] = useState([{  catergory_name: "", id: "" }]);
-
-
-    useEffect(() => {                
-        GetAllCategory()
-            .then(response => {
-                setChatdata(response);
+    let chatdata=useSelector(state => state.category); 
+    const dispatch = useDispatch();
+   
+    useEffect(() => {
+        if(chatdata.length==0){
+            GetAllCategory().then((data)=>{
+                dispatch({ type: 'category/addAll', payload: data })   
             })
-    }, [])
+        }
+    }, []);
 
-
-
-
-
-
-    let listItems = chatdata.map((topics) =>
+    let listItems = chatdata.reverse().map((topics) =>
         <ChatElement key={topics.id} chat_items={topics}></ChatElement>
     );
 
@@ -77,30 +74,28 @@ function ChatRow() {
 
 function ChatElement(props) {
 
-    function openDetailPage(){
-        
-    }
+    
 
     return <div className="chatrow_item">
-        <span className="chat_title"> {props.chat_items.catergory_name}</span>
+        <span className="chat_title"> {props.chat_items.category_name}</span>
         <span className="chat_right_icon"> <MdChevronRight></MdChevronRight></span>        
     </div>
 
 }
 
 function ChatDetailPage() {
-    const [chatdata, setChatdata] = useState([{ description: "", title: "", id: "" }]);
-
-
+    let chatdata=useSelector(state=>state.categoryExpense);
+    const dispatch = useDispatch();
+   
     useEffect(() => {
-        fetch('http://localhost:3000/sampledata/data.json')
-            .then(response => {
-                response.json().then((d) => {
-                    setChatdata(d.topics);
-                })
-
+        if(chatdata.length==0){
+            GetCategoryExpense().then((data)=>{
+                dispatch({ type: 'categoryExpense/addAll', payload: data })   
             })
+        }
     }, []);
+
+    
 
     let chatItems=chatdata.map((expense_item)=>{
         return <ChatDetailDataRow key={expense_item.id} item_data={expense_item}></ChatDetailDataRow>
