@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from 'react';
 import '../css/home.css';
 import Pageheader from "./common"
-import {AddCatergroyItem,GetAllCategory} from "../js/home"
+import {AddCatergroyItem,GetAllCategory,GetCategoryExpense,AddCatergroyExpenseItem} from "../js/home"
 import { useSelector,useDispatch } from 'react-redux'
-import {MdDashboard,MdHome,MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
+import {MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
 
 function HomePage() {
     return (<div>
@@ -29,8 +29,7 @@ function AddCatergroy(){
     function checkCreateCategory(){
         let category_name=document.getElementById("category_name").value
         if(category_name!=null && category_name.trim()!=""){
-            AddCatergroyItem({"category_name":category_name}).then((result)=>{
-                
+            AddCatergroyItem({"category_name":category_name}).then((result)=>{                
                 dispatch({ type: 'category/add', payload: {id:result.id,"category_name":category_name} })   
             });
         }        
@@ -51,7 +50,7 @@ function AddNewExpenseType(){
 
 function ChatRow() {
 
-    let chatdata=useSelector(state => state.category); 
+    let chatdata=useSelector(state => state.category.category_item); 
     const dispatch = useDispatch();
    
     useEffect(() => {
@@ -73,10 +72,14 @@ function ChatRow() {
 }
 
 function ChatElement(props) {
+    const dispatch = useDispatch();
+    function openDetailPage(){                
+        GetCategoryExpense(0,props.chat_items.id).then((data)=>{            
+            dispatch({ type: 'categoryExpense/addAll', payload: {categoryDetails:{id:props.chat_items.id,name:props.chat_items.category_name},categoryExpenseItem:data} })   
+        });
+    }
 
-    
-
-    return <div className="chatrow_item">
+    return <div onClick={openDetailPage} className="chatrow_item">
         <span className="chat_title"> {props.chat_items.category_name}</span>
         <span className="chat_right_icon"> <MdChevronRight></MdChevronRight></span>        
     </div>
@@ -85,59 +88,53 @@ function ChatElement(props) {
 
 function ChatDetailPage() {
     let chatdata=useSelector(state=>state.categoryExpense);
-    const dispatch = useDispatch();
-   
-    useEffect(() => {
-        if(chatdata.length==0){
-            GetCategoryExpense().then((data)=>{
-                dispatch({ type: 'categoryExpense/addAll', payload: data })   
-            })
-        }
-    }, []);
-
     
-
-    let chatItems=chatdata.map((expense_item)=>{
+    let chatItems=chatdata.categoryExpenseItem.map((expense_item)=>{
         return <ChatDetailDataRow key={expense_item.id} item_data={expense_item}></ChatDetailDataRow>
     });
 
-    return <div className="chat_detail">
-        <ChatDetailHeader headername="Swiggy" ></ChatDetailHeader>
+    if(chatdata.categoryDetails.id!=null){
+        return <div className="chat_detail">
+        <ChatDetailHeader item_data={chatdata.categoryDetails} ></ChatDetailHeader>
         <div className="chatdatarow_parent">            
             {chatItems}
         </div>
-        <ChatDetailBottom />
-    </div>
+        <ChatDetailBottom category_id={chatdata.categoryDetails.id}/>
+        </div>
+    }
+    else{
+        return <div className="chat_detail"></div>
+    }
 
 }
 function ChatDetailHeader(props){
     return <div className="expense-chatdetail-header">
         <div className="expense-chatdetail-header-img"><MdTagFaces></MdTagFaces></div>
         <div className="expense-chatdetail-header-container">
-        <div className="expense-chatdetail-header-title">{props.headername}</div>
-        <div className="expense-chatdetail-header-subtitle">3435</div>
+        <div className="expense-chatdetail-header-title">{props.item_data.name}</div>
+        <div className="expense-chatdetail-header-subtitle">{props.item_data.id}</div>
         </div>
         
         </div>
 }
 function ChatDetailDataRow(props) {
     let classname=" expense-item ";
-    if( Number(props.item_data.id)%2==0 ){
+    if( localStorage.getItem("userid")==props.item_data.expense_addedby_id ){
         classname+="my-expense-item "
     }
     return (
     <div className={classname}>
-        <div className="expense-item-user"> Aravind</div>
-        <div className="expense-item-amount">$ {props.item_data.price} </div>
-        <ChatImageData item_data={props.item_data}></ChatImageData>
-        <div className="expense-item-content">{props.item_data.description}</div>
-        <div className="expense-item-time"> 12:34 pm</div>
+        <div className="expense-item-user"> {props.item_data.expense_addedby_name}</div>
+        <div className="expense-item-amount">$ {props.item_data.expense_amount} </div>
+        <ChatImageData item_data={props.item_data.user_pic}></ChatImageData>
+        <div className="expense-item-content">{props.item_data.expense_reason}</div>
+        <div className="expense-item-time"> {new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(props.item_data.expense_added_time)}</div>
     </div>);
 
 }
 
 function ChatImageData(props){
-    if(props.item_data.image==null){
+    if(props.item_data==null){
         return (<div></div>)
     }
     else{
@@ -146,17 +143,28 @@ function ChatImageData(props){
     return
 }
 
-function ChatDetailBottom() {
+function ChatDetailBottom(props) {
+
+    const dispatch =useDispatch();
+    function checkCreateCategoryExpenseItem(){
+        let item_reason=document.getElementById("expense_item_reason").value
+        let item_amount=document.getElementById("expense_item_amount").value
+        if(item_reason!=null && item_reason.trim()!="" && item_amount!=null && item_amount.trim()!=""){
+            AddCatergroyExpenseItem({amount:item_amount,category_id :props.category_id,reason:item_reason}).then((result)=>{                
+                dispatch({ type: 'categoryExpense/add', payload: result })   
+            });
+        }        
+    }
 
     return (
         <div className="chatdetailbottom">
             <div className="flex flex-flow-reverse h100per pt2vh"  >
                 <div className="addnew_chatdet_row w10per" >
-                    <button className="primary-button">Add</button>
+                    <button onClick={checkCreateCategoryExpenseItem} className="primary-button">Add</button>
                 </div>
-                <div className="w70per"><input placeholder="Reason..." className="h50per w90per" /> </div>
+                <div className="w70per"><input id="expense_item_reason" placeholder="Reason..." className="h50per w90per" /> </div>
                 <div className="w15per">
-                <input placeholder="Amount..." className="h50per w50per amount-field" />
+                <input id="expense_item_amount" placeholder="Amount..." className="h50per w50per amount-field" />
                     </div>
                 <div className="w5per pt1vh">
                     <i className="chat-attach"><MdImage></MdImage></i>

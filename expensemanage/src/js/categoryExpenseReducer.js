@@ -1,24 +1,20 @@
-const initialState = []
+const initialState = {categoryDetails:{},categoryExpenseItem:[]};
 
 export default function categoryExpenseReducer(state = initialState, action) {
   switch (action.type) {
     case 'categoryExpense/add': {      
-      return [
+      let items=state.categoryExpenseItem;
+      items.push(action.payload);
+      return {
         ...state,
-        {
-          id: action.payload.id,
-          category_name: action.payload.category_name,          
-        },
-      ]
+        categoryExpenseItem:[...items],
+      }
     }
     case 'categoryExpense/addAll': {      
-        return [
-          ...state,
-          ...action.payload,
-        ]
-      }    
-    case 'categoryExpense/getAll': {      
-      return state;
+        return action.payload
+      }        
+    case 'categoryExpense/clear': {      
+      return [];
     }   
     default:
       return state

@@ -16,6 +16,7 @@ function LoginBox() {
         if (doc.data().username == userdetails.username && doc.data().password == userdetails.password) {
           isValid = true;
           localStorage.setItem("userid", doc.id);
+          localStorage.setItem("username", doc.data().username);
         }
       });
 
