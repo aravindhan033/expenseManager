@@ -3,13 +3,14 @@ import '../css/home.css';
 import Pageheader from "./common"
 import {AddCatergroyItem,GetAllCategory,GetCategoryExpense,AddCatergroyExpenseItem} from "../js/home"
 import { useSelector,useDispatch } from 'react-redux'
-import {MdImage,MdTagFaces,MdChevronRight,MdSend} from "react-icons/md";
+import {MdImage,MdKeyboardArrowLeft,MdChevronRight,MdSend} from "react-icons/md";
+import { isMobileView } from '../js/common';
 
 function HomePage() {
     return (<div>
         <Pageheader headername="Expense manager"></Pageheader>
         <div className="flex mt1per pl2vh">        
-            <div>
+            <div id="chat-list-view">
             <AddCatergroy></AddCatergroy>
             <div className="chatparent">                                        
                 <ChatRow></ChatRow>                
@@ -61,7 +62,7 @@ function ChatRow() {
         }
     }, []);
 
-    let listItems = chatdata.reverse().map((topics) =>
+    let listItems = chatdata.map((topics) =>
         <ChatElement key={topics.id} chat_items={topics}></ChatElement>
     );
 
@@ -75,6 +76,10 @@ function ChatElement(props) {
     const dispatch = useDispatch();
     function openDetailPage(){                
         GetCategoryExpense(0,props.chat_items.id).then((data)=>{            
+            if(isMobileView){
+                document.getElementsByClassName("chat_detail")[0].classList.remove("hide");
+                document.getElementById("chat-list-view").classList.add("hide");                
+            }
             dispatch({ type: 'categoryExpense/addAll', payload: {categoryDetails:{id:props.chat_items.id,name:props.chat_items.category_name},categoryExpenseItem:data} })   
         });
     }
@@ -92,9 +97,11 @@ function ChatDetailPage() {
     let chatItems=chatdata.categoryExpenseItem.map((expense_item)=>{
         return <ChatDetailDataRow key={expense_item.id} item_data={expense_item}></ChatDetailDataRow>
     });
-
+    
+    let detailPageClass="chat_detail";
+    detailPageClass+=isMobileView?" hide":"";
     if(chatdata.categoryDetails.id!=null){
-        return <div className="chat_detail">
+        return <div className={detailPageClass}>
         <ChatDetailHeader item_data={chatdata.categoryDetails} ></ChatDetailHeader>
         <div className="chatdatarow_parent">            
             {chatItems}
@@ -103,13 +110,22 @@ function ChatDetailPage() {
         </div>
     }
     else{
-        return <div className="chat_detail"></div>
+        return <div className={detailPageClass}></div>
     }
 
 }
 function ChatDetailHeader(props){
+    
+    function closeDetailPage(){
+        if(isMobileView){
+            document.getElementsByClassName("chat_detail")[0].classList.add("hide");
+            document.getElementById("chat-list-view").classList.remove("hide");                
+        }
+    }
+    
+    let headerimgClass=`expense-chatdetail-header-img ${isMobileView?'':'hideimp'}`
     return <div className="expense-chatdetail-header">
-        <div className="expense-chatdetail-header-img"><MdTagFaces></MdTagFaces></div>
+        <div onClick={closeDetailPage} className={headerimgClass}><MdKeyboardArrowLeft></MdKeyboardArrowLeft></div>
         <div className="expense-chatdetail-header-container">
         <div className="expense-chatdetail-header-title">{props.item_data.name}</div>
         <div className="expense-chatdetail-header-subtitle">{props.item_data.id}</div>
@@ -162,7 +178,7 @@ function ChatDetailBottom(props) {
                 <div className="addnew_chatdet_row w10per" >
                     <button onClick={checkCreateCategoryExpenseItem} className="primary-button">Add</button>
                 </div>
-                <div className="w70per"><input id="expense_item_reason" placeholder="Reason..." className="h50per w90per" /> </div>
+                <div className="w60per"><input id="expense_item_reason" placeholder="Reason..." className="h50per w90per" /> </div>
                 <div className="w15per">
                 <input id="expense_item_amount" placeholder="Amount..." className="h50per w50per amount-field" />
                     </div>

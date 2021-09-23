@@ -48,7 +48,7 @@ export async function GetAllCategory() {
 
 export async function GetCategoryExpense(index, category_id) {
     let resultData = [];
-    const expenseQuery = query(collection(db, "expense_list"), where("expense_category", "==", category_id), orderBy("expense_added_time"), startAt(index), limit(25))
+    const expenseQuery = query(collection(db, "expense_list"), where("expense_category", "==", category_id), orderBy("expense_added_time","desc"), startAt(index), limit(25))
     const querySnapshot = await getDocs(expenseQuery);
     querySnapshot.forEach((doc) => {
         let cat = doc.data();

@@ -160,8 +160,11 @@
 }
 .header-title{
     margin-left: 3vw;
-    font-size: 24px;
+    font-size: 3vw;
     margin-top: 2.4vh;
+    line-height: 2vh;
+    width: 100%;
+    white-space: nowrap;
 }
 .header-dashboard{
     cursor: pointer;
@@ -211,7 +214,23 @@
 
 @media only screen and (max-width: 600px) {
    .chatparent{
-    width: 100%;
+    width: 94vw;
+   }
+   .header-dashboard{
+        margin-left: 40vw;
+   }
+   .add-category{
+    width: 94vw;
+    padding-left:unset;
+   }
+   .add-category input{
+       width:48%;
+   }
+   .chat_detail,.expense-chatdetail-header{
+       width: 92vw;
+   }   
+   .addnew_chatdet_row{
+        width: 17%;
    }
   }
   
