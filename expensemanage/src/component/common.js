@@ -16,9 +16,9 @@ export function Datatable(props){
     let th=table_data.header_columns.map((header)=>{
         return <th> {header}</th>
     })
-    let tr= new Array();
+    let tr= [];
     for(let i=0;i<table_data.table_column_data.length;i++){
-        let td= new Array();
+        let td= [];
         for(let j=0;j<table_data.table_column_data[i].length;j++){
             td.push(<td>{table_data.table_column_data[i][j]}</td>)
         }

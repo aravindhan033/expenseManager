@@ -1,6 +1,6 @@
 import Pageheader from "./common"
 import {Datatable} from "./common"
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import "../css/dashboard.css"
 function Dashboard(){
     return <div >
@@ -21,7 +21,8 @@ function Dashboard(){
 }
 
 function DashboardItems(props){
-    const [dashboard_table_data, setdashboard_table_data] = useState({header_columns:["Category","Amount"],table_column_data:[["Swiggy",2],["Amazon",2]]})
+    //const [dashboard_table_data, setdashboard_table_data] = useState({header_columns:["Category","Amount"],table_column_data:[["Swiggy",2],["Amazon",2]]})
+    const [dashboard_table_data] = useState({header_columns:["Category","Amount"],table_column_data:[["Swiggy",2],["Amazon",2]]})
     return <div className="dashboard-item">
         <div className="dashboard-item-title">{props.title}</div>
 <div className="p7per">
