@@ -31,7 +31,9 @@ function AddCatergroy(){
         let category_name=document.getElementById("category_name").value
         if(category_name!=null && category_name.trim()!=""){
             AddCatergroyItem({"category_name":category_name}).then((result)=>{                
+                document.getElementById("category_name").value=""
                 dispatch({ type: 'category/add', payload: {id:result.id,"category_name":category_name} })   
+                
             });
         }        
     }
@@ -166,8 +168,10 @@ function ChatDetailBottom(props) {
         let item_reason=document.getElementById("expense_item_reason").value
         let item_amount=document.getElementById("expense_item_amount").value
         if(item_reason!=null && item_reason.trim()!="" && item_amount!=null && item_amount.trim()!=""){
-            AddCatergroyExpenseItem({amount:item_amount,category_id :props.category_id,reason:item_reason}).then((result)=>{                
-                dispatch({ type: 'categoryExpense/add', payload: result })   
+            document.getElementById("expense_item_reason").value=""
+            document.getElementById("expense_item_amount").value=""
+            AddCatergroyExpenseItem({amount:item_amount,category_id :props.category_id,reason:item_reason}).then((result)=>{                                
+                dispatch({ type: 'categoryExpense/add', payload: result })                 
             });
         }        
     }

@@ -4,7 +4,7 @@ export default function categoryExpenseReducer(state = initialState, action) {
   switch (action.type) {
     case 'categoryExpense/add': {      
       let items=state.categoryExpenseItem;
-      items.push(action.payload);
+      items.unshift(action.payload);
       return {
         ...state,
         categoryExpenseItem:[...items],
